@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
-  const { user, updateProfile } = useAuth();
+  const { user, updateProfile, logout } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     username: user?.username || '',
@@ -47,6 +47,10 @@ const Dashboard = () => {
   const handleCancel = () => {
     setIsEditing(false);
     setMessage('');
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -209,6 +213,24 @@ const Dashboard = () => {
 
         {/* Sidebar */}
         <div className="space-y-6">
+          {/* Quick Actions */}
+          <div className="backdrop-blur-lg bg-white/30 rounded-3xl shadow-2xl border border-white/20 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Quick Actions
+            </h3>
+            <div className="space-y-3">
+              <button
+                onClick={handleLogout}
+                className="w-full bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 transform hover:scale-105 flex items-center justify-center space-x-2"
+              >
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+
           {/* Stats Card */}
           <div className="backdrop-blur-lg bg-white/30 rounded-3xl shadow-2xl border border-white/20 p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
