@@ -9,24 +9,28 @@ router.get('/google',
 );
 
 // Google OAuth callback route
-router.get('/google/callback',
-    passport.authenticate('google', { session: false }),
-    (req, res) => {
-        try {
-            // Generate JWT token
-            const token = jwt.sign(
-                { id: req.user.id },
-                process.env.JWT_SECRET,
-                { expiresIn: '1h' }
-            );
-
-            // Redirect to frontend with token
-            res.redirect(`http://localhost:3000/auth/google/callback?token=${token}`);
-        } catch (error) {
-            console.error('Google OAuth callback error:', error);
-            res.redirect('http://localhost:3000/login?error=google_auth_failed');
-        }
+router.get('/google/callback', (req, res, next) => {
+  passport.authenticate('google', (err, user, info) => {
+    if (err) {
+      console.error('Google OAuth callback error:', err);
+      if (err.stack) {
+        console.error(err.stack);
+      }
+      return next(err);
     }
-);
+    if (!user) {
+      console.error('No user returned from Google OAuth:', info);
+      return res.status(401).json({ message: 'Authentication failed' });
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error('Error logging in user after Google OAuth:', err);
+        return next(err);
+      }
+      // Redirect or respond as needed
+      res.redirect('/'); // or your frontend URL
+    });
+  })(req, res, next);
+});
 
 module.exports = router; 
