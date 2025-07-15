@@ -27,8 +27,14 @@ router.get('/google/callback', (req, res, next) => {
         console.error('Error logging in user after Google OAuth:', err);
         return next(err);
       }
-      // Redirect or respond as needed
-      res.redirect('/'); // or your frontend URL
+      // Generate JWT token
+      const token = jwt.sign(
+        { id: user.id },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+      // Redirect to your deployed frontend with the token
+      res.redirect(`https://secure-auth-ozz2.onrender.com/auth/google/callback?token=${token}`);
     });
   })(req, res, next);
 });
