@@ -10,8 +10,12 @@ dotenv.config();
 const app = express();
 
 // CORS configuration for production
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://secure-auth-ozz2.onrender.com'
+];
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: allowedOrigins,
   credentials: true,
   optionsSuccessStatus: 200
 };
