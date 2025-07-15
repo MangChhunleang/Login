@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
-  const { user, updateProfile, logout } = useAuth();
+  const { user, updateProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     username: user?.username || '',
@@ -24,14 +24,14 @@ const Dashboard = () => {
     setMessage('');
 
     const result = await updateProfile(formData.username, formData.email);
-    
+
     if (result.success) {
       setMessage('Profile updated successfully!');
       setIsEditing(false);
     } else {
       setMessage(result.message);
     }
-    
+
     setLoading(false);
   };
 
@@ -47,10 +47,6 @@ const Dashboard = () => {
   const handleCancel = () => {
     setIsEditing(false);
     setMessage('');
-  };
-
-  const handleLogout = () => {
-    logout();
   };
 
   return (
@@ -97,11 +93,10 @@ const Dashboard = () => {
             </div>
 
             {message && (
-              <div className={`mb-6 px-4 py-3 rounded-xl text-sm flex items-center space-x-2 ${
-                message.includes('successfully') 
-                  ? 'bg-green-50 border border-green-200 text-green-700' 
+              <div className={`mb-6 px-4 py-3 rounded-xl text-sm flex items-center space-x-2 ${message.includes('successfully')
+                  ? 'bg-green-50 border border-green-200 text-green-700'
                   : 'bg-red-50 border border-red-200 text-red-700'
-              }`}>
+                }`}>
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {message.includes('successfully') ? (
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -130,7 +125,7 @@ const Dashboard = () => {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                       Email
@@ -175,7 +170,7 @@ const Dashboard = () => {
                   </div>
                   <dd className="text-lg font-semibold text-gray-900">{user?.username}</dd>
                 </div>
-                
+
                 <div className="bg-white/50 backdrop-blur-sm rounded-xl p-6">
                   <div className="flex items-center space-x-3 mb-2">
                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,7 +180,7 @@ const Dashboard = () => {
                   </div>
                   <dd className="text-lg font-semibold text-gray-900">{user?.email}</dd>
                 </div>
-                
+
                 <div className="bg-white/50 backdrop-blur-sm rounded-xl p-6">
                   <div className="flex items-center space-x-3 mb-2">
                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -195,7 +190,7 @@ const Dashboard = () => {
                   </div>
                   <dd className="text-lg font-semibold text-gray-900">{user?.id}</dd>
                 </div>
-                
+
                 <div className="bg-white/50 backdrop-blur-sm rounded-xl p-6">
                   <div className="flex items-center space-x-3 mb-2">
                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -214,24 +209,6 @@ const Dashboard = () => {
 
         {/* Sidebar */}
         <div className="space-y-6">
-          {/* Quick Actions */}
-          <div className="backdrop-blur-lg bg-white/30 rounded-3xl shadow-2xl border border-white/20 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Quick Actions
-            </h3>
-            <div className="space-y-3">
-              <button
-                onClick={handleLogout}
-                className="w-full bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 transform hover:scale-105 flex items-center justify-center space-x-2"
-              >
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                <span>Sign Out</span>
-              </button>
-            </div>
-          </div>
-
           {/* Stats Card */}
           <div className="backdrop-blur-lg bg-white/30 rounded-3xl shadow-2xl border border-white/20 p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
