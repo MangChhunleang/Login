@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node app.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+    plan: free
+
+  - type: web
+    name: frontend
+    env: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: serve -s build
+    staticPublishPath: build
+    envVars:
+      - key: NODE_ENV
+        value: production
+    plan: free 

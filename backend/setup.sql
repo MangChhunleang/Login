@@ -1,6 +1,5 @@
--- Create database if it doesn't exist
-CREATE DATABASE IF NOT EXISTS login_app;
-USE login_app;
+-- Use Clever Cloud database
+USE bywuv5z1hbvjzt1e0gdk;
 
 -- Create users table
 CREATE TABLE IF NOT EXISTS users (
